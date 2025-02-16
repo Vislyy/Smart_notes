@@ -1,0 +1,42 @@
+from PyQt5.QtWidgets import *
+
+app = QApplication([])
+window = QWidget()
+
+mainline = QHBoxLayout()
+v1 = QVBoxLayout()
+h1 = QHBoxLayout()
+h2 = QHBoxLayout()
+
+text_area = QTextEdit()
+notes_list = QListWidget()
+notes_list_lbl = QLabel("Список заміток")
+tags_list = QListWidget()
+tags_list_lbl = QLabel("Список тегів")
+save_note = QPushButton('Зберегти замітку')
+create_note = QPushButton('Створити замітку')
+delete_note = QPushButton('Видалити замітку')
+search_tag = QPushButton('Шукати замітки по тегу')
+add_tag = QPushButton('Додати до замітки')
+delete_tag = QPushButton('Відкріпити від замітки')
+search_tag_area = QLineEdit('Введіть тег...')
+
+v1.addWidget(notes_list_lbl)
+v1.addWidget(notes_list)
+v1.addLayout(h1)
+h1.addWidget(create_note)
+h1.addWidget(delete_note)
+v1.addWidget(save_note)
+v1.addWidget(tags_list_lbl)
+v1.addWidget(tags_list)
+v.addLayout()
+h2.addWidget(add_tag)
+h2.addWidget(delete_tag)
+v1.addWidget(search_tag)
+
+mainline.addWidget(text_area)
+
+mainline.addLayout(v1)
+window.setLayout(mainline)
+window.show()
+app.exec()
