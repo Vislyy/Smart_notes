@@ -1,5 +1,5 @@
 #Імпортування бібліотек
-from PyQt6.QtWidgets import *
+from PyQt5.QtWidgets import *
 from file_manager import *
 
 #Головний словник для заміток
@@ -48,7 +48,7 @@ v1.addWidget(search_tag)
 #Створення функцій
 def show_note():
     key = notes_list.currentItem().text()
-    text_status = len(text_area.toPlainText())
+    text_status = len(notes[key]["текст"])
     if text_status >= 1:
         text_area.setText(notes[key]["текст"])
         tags_list.clear()
@@ -82,13 +82,26 @@ def delete_note():
     write_in_file(notes)
 def add_tag():
     tag_name, ok = QInputDialog.getText(window, "Новий тег", "Введіть назву тегу")
-    if ok == True:
+    if tag_name and tag_name not in notes[notes_list.currentItem()]["теги"]:
         notes[notes_list.currentItem().text()]["теги"].append(tag_name)
-        notes_list.clear()
-        notes_list.addItems(notes)
         tags_list.clear()
         tags_list.addItems(notes[notes_list.currentItem().text()]["теги"])
         write_in_file(notes)
+    else:
+        QMessageBox.Information(window, "Виберіть замітку та перервірте чи немає вже такого тега на замітці")
+def delete_tag():
+    key = tags_list.currentItem().text()
+    current_tag_status = tags_list.currentItem()
+    if current_tag_status:
+        notes.pop(key["теги"])
+        tags_list.clear()
+        tags_list.addItems(notes[key]["теги"])
+        write_in_file(notes)
+    else:
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Information)
+        msg.setWindowTitle("Теги")
+        msg.setText("Ви не обрали теги для видалення. \n Будь ласка оберіть теги які ви хочете видалити" )
 #Прив'язка функцій до кнопок
 notes_list.itemClicked.connect(show_note)
 save_note_btn.clicked.connect(save_note)
